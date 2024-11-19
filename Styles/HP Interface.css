@@ -2,7 +2,7 @@ body {
     margin: 0; 
     height: 100vh; 
     background-color: #DAD2D8;
-    background-image: url('Styles/Images/PUPTbg1.png');
+    background-image: url('Images/PUPTbg1.png');
     background-size: cover;
     background-position: 0px 170px; 
     background-attachment: fixed; 
