@@ -3,8 +3,8 @@ body {
     height: 100vh; 
     background-color: #DAD2D8;
     background-image: url('Styles/Images/PUPTbg1.png');
-    background-size: contain;
-    background-position: 0 170px; 
+    background-size: auto;
+    background-position: 0px 170px; 
     background-attachment: fixed; 
     background-repeat: no-repeat;
 }
