@@ -1,0 +1,144 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+#menu-toggle {
+    display: none;
+}
+
+.menu-btn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    background-color: #A8201A;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s;
+}
+
+.menu-btn:hover {
+    background-color: #EC9A29;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Sidebar hidden by default */
+    width: 250px;
+    height: 100%;
+    background-color: #A8201A;
+    padding-top: 20px;
+    transition: all 0.3s ease-in-out;
+    overflow-y: auto;
+    z-index: 500;
+}
+
+.sidebar nav a {
+    display: block;
+    padding: 15px 20px;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+.sidebar nav a:hover {
+    background-color: #EC9A29;
+}
+
+.sidebar nav a.active {
+    background-color: #EC9A29;
+    color: white;
+}
+
+#menu-toggle:checked ~ .sidebar {
+    left: 0;
+}
+
+#menu-toggle:checked ~ .content {
+    margin-left: 250px;
+}
+
+@media (min-width: 768px) {
+    .menu-btn {
+        display: none; 
+    }
+
+    .sidebar {
+        left: 0; 
+    }
+
+    .content {
+        margin-left: 250px; 
+    }
+}
+
+.image-container1 {
+    text-align: center; 
+    margin-top: 20px;
+}
+
+.image-container1 img {
+    width: 50%; 
+    height: auto; 
+}
+
+.content {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+}
+
+.position-box {
+    width: 250px;
+    height: 150px;
+    background-color: #143642;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 16px;
+    color: #DAD2D8;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.position-box:hover {
+    background-color: #DAD2D8;
+    border-color: #A8201A;
+    color: #A8201A;
+}
+
+.position-box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; 
+    justify-content: center;
+    width: 100%; 
+}
+
+.status-container {
+    width: 100%; 
+    text-align: center; 
+    margin: 20px 0; 
+}
+
+.status-container h1 {
+    font-size: 24px;
+    font-weight: bold; 
+    color: #333; 
+}
