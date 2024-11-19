@@ -2,10 +2,9 @@ body {
     margin: 0; 
     height: 100vh; 
     padding: 0;
-    font-family: Arial, sans-serif;
     background-color: #DAD2D8;
     background-image: url('Styles/Images/PUPTbg1.png');
-    background-size: cover;
+    background-size: contain;
     background-position: 0 170px; 
     background-attachment: fixed; 
     background-repeat: no-repeat;
