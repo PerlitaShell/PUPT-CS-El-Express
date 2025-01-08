@@ -1,0 +1,176 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUPT CS El-Express Student QR Scanner</title>
+    <style>
+        /* Basic styles */
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #DAD2D8;
+            background-image: url('static/images/AdminLogin1.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        .scanner-container {
+            width: 300px;
+            height: 300px;
+            border: 2px dashed #007bff;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .box {
+            background-color: #DAD2D8;
+            padding: 75px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 300px;
+            height: 400px;
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .image-container1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .image-container1 img {
+            width: 80%;
+            height: auto;
+        }
+
+        h2 {
+            margin-top: -10px;
+            font-size: 25px;
+        }
+
+        button {
+            display: block;
+            width: 150px;
+            padding: 12px;
+            margin-top: 20px;
+            font-size: 16px;
+            border: 2px solid;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #A8201A;
+            border-color: #EC9A29;
+            color: #EC9A29;
+            font-weight: bold;
+            margin-left: 75px;
+        }
+
+        button:hover {
+            background-color: #143642;
+            color: white;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            color: #666;
+            margin-top: 0px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <div class="box">
+            <div class="image-container1">
+                <img src="static/images/El1.png" alt="Web Logo">
+                <h2><b>QR SCANNER</b></h2>
+                <div class="scanner-container">
+                    <video id="scanner" width="100%" height="auto" autoplay></video>
+                </div>
+                <button id="scanBtn">Scan QR Code</button>
+                <p id="result"></p>
+            </div>
+            <a href="http://127.0.0.1:5000/">Back</a>
+        </div>
+    </center>
+
+    <script>
+        const video = document.getElementById('scanner');
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        function startCamera() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert("Your browser does not support accessing the camera.");
+                return;
+            }
+
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                    video.play();
+                    console.log("Camera started successfully.");
+                })
+                .catch(err => {
+                    console.error("Error accessing webcam: " + err);
+                    alert("Error accessing webcam: " + err);
+                });
+        }
+
+        document.getElementById('scanBtn').onclick = function () {
+            if (video.srcObject) {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                const imageData = canvas.toDataURL('image/png');
+
+                fetch('/student_page/decode_qr', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ image: imageData }),
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.qr_code_data) {
+                            // Dynamically fetch the correct URL using Flask-generated routes
+                            const redirectUrl = "{{ url_for('voting_bp.voting') }}"; // Replace with the correct route
+                            window.location.href = redirectUrl;
+                        } else {
+                            alert(data.error || 'QR Code not recognized');
+                        }
+                    })
+                    .catch((error) => {
+                        alert('An error occurred: ' + error);
+                    });
+            } else {
+                alert("Please enable the camera first.");
+            }
+        };
+
+
+        document.addEventListener('DOMContentLoaded', startCamera);
+    </script>
+</body>
+</html>
